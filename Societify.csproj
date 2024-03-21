@@ -46,6 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JoinSociety.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JoinSociety.designer.cs">
+      <DependentUpon>JoinSociety.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegisterSociety.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegisterSociety.designer.cs">
+      <DependentUpon>RegisterSociety.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +66,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="JoinSociety.resx">
+      <DependentUpon>JoinSociety.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegisterSociety.resx">
+      <DependentUpon>RegisterSociety.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
