@@ -393,11 +393,17 @@ namespace Societify
                 {
                     connection.Open();
 
-                    string query = @"SELECT s.SocietyID, s.SocietyName
-                                    FROM Society s
-                                    LEFT JOIN societyMembers sm ON s.SocietyID = sm.SocietyID AND sm.UserID = @UserID
-                                    WHERE(sm.SocietyID IS NULL OR s.President_ID != @UserID)
-                                        AND s.approved = 1";
+                    string query = @"
+                SELECT s.SocietyID, s.SocietyName
+                FROM Society s
+                LEFT JOIN societyMembers sm ON s.SocietyID = sm.SocietyID AND sm.UserID = @UserID
+                WHERE (sm.SocietyID IS NULL AND s.President_ID != @UserID)
+                    AND s.approved = 1
+                    AND NOT EXISTS (
+                        SELECT 1
+                        FROM MemberApprovalRequests mar
+                        WHERE mar.UserID = @UserID AND mar.SocietyID = s.SocietyID
+                    )";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
