@@ -46,6 +46,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="admindashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="admindashboard.designer.cs">
+      <DependentUpon>admindashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="requestsList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="requestsList.Designer.cs">
+      <DependentUpon>requestsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="register.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="register.designer.cs">
+      <DependentUpon>register.cs</DependentUpon>
+    </Compile>
+    <Compile Include="requests panel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="requests panel.designer.cs">
+      <DependentUpon>requests panel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="studentdashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="studentdashboard.designer.cs">
+      <DependentUpon>studentdashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs" />
+    <Compile Include="DBHandler.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="JoinSociety.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,8 +99,20 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewSocietiesAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewSocietiesAdmin.Designer.cs">
+      <DependentUpon>ViewSocietiesAdmin.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="admindashboard.resx">
+      <DependentUpon>admindashboard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="JoinSociety.resx">
       <DependentUpon>JoinSociety.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="register.resx">
+      <DependentUpon>register.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegisterSociety.resx">
       <DependentUpon>RegisterSociety.cs</DependentUpon>
@@ -83,7 +128,20 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="requests panel.resx">
+      <DependentUpon>requests panel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="requestsList.resx">
+      <DependentUpon>requestsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="studentdashboard.resx">
+      <DependentUpon>studentdashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewSocietiesAdmin.resx">
+      <DependentUpon>ViewSocietiesAdmin.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -96,6 +154,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bgbg1.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
