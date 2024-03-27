@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Data;
-using static Societify.Constants;
+using static Societify.connectionStr;
 
 namespace Societify
 {

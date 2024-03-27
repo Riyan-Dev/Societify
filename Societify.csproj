@@ -52,6 +52,7 @@
     <Compile Include="admindashboard.designer.cs">
       <DependentUpon>admindashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="connectionStr.cs" />
     <Compile Include="requestsList.cs">
       <SubType>Form</SubType>
     </Compile>

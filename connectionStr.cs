@@ -8,8 +8,8 @@ using static Societify.User;
 namespace Societify
 {
 
-    class Constants
+    class connectionStr
     {
-        public static User user;
+        public static string connectionString =  "Data Source = ELIGIUS; Initial Catalog = societify; Integrated Security = True"; 
     }
 }
