@@ -8,8 +8,9 @@ using static Societify.User;
 namespace Societify
 {
 
-    class Constants
+    class connectionStr
     {
-        public static User user;
+        public static string connectionString = "Data Source=DESKTOP-RRT0ERQ\\SQLEXPRESS;Initial Catalog=societify;Integrated Security=True;Encrypt=False"; 
     }
 }
+

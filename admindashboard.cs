@@ -30,5 +30,12 @@ namespace Societify
             requestsList newWindow = new requestsList();
             newWindow.Show();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            eventsRequestList newWindow = new eventsRequestList();
+            newWindow.Show();
+        }
     }
 }
