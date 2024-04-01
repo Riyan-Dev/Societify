@@ -92,6 +92,7 @@ namespace Societify
 
             return dt;
         }
+
         public static DataTable GetSocietiesInApprovalRequests()
         {
             DataTable dt = new DataTable();
@@ -121,10 +122,122 @@ namespace Societify
 
             return dt;
         }
-        public static DataTable GetSocietyNamesAndIDsForAdmin()
+        public static DataTable GetSocietiesInEventsApprovalRequests()
         {
             DataTable dt = new DataTable();
 
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = @"
+            SELECT reqID, societyID, eventName
+            FROM societyEventsApproval";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
+            return dt;
+        }
+
+        public static void UpdateSocietyEventApproval(int societyID, int eventID, bool approvedValue)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = "UPDATE societyEvents SET approved = @ApprovedValue WHERE societyID = @SocietyID AND eventID = @EventID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@ApprovedValue", approvedValue);
+                        command.Parameters.AddWithValue("@SocietyID", societyID);
+                        command.Parameters.AddWithValue("@EventID", eventID);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating Society event approval status: " + ex.Message);
+            }
+        }
+
+        public static void DeleteSocietyEventApproval(int societyID, int eventID)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = "DELETE FROM societyEventsApproval WHERE societyID = @SocietyID AND reqID = @EventID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@SocietyID", societyID);
+                        command.Parameters.AddWithValue("@EventID", eventID);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting societyEventsApproval: " + ex.Message);
+            }
+        }
+
+        public static DataTable GetSocietyEventsApprovalDetails(int societyID, int eventID)
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = @"
+            SELECT reqID, eventName, Date, registerationFee, Description
+            FROM societyEventsApproval
+            WHERE societyID = @SocietyID AND reqID = @EventID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@SocietyID", societyID);
+                        command.Parameters.AddWithValue("@EventID", eventID);
+
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                        {
+                            adapter.Fill(dt);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
+            return dt;
+        }
+
+        public static DataTable GetSocietyNamesAndIDsForAdmin()
+        {
+            DataTable dt = new DataTable();
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
