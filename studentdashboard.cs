@@ -83,6 +83,33 @@ namespace Societify
             
         }
 
+       private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+{
+            if (e.RowIndex >= 0)
+            {
+                // Retrieve data from the selected row
+                int societyID = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["SocietyID"].Value);
+                string approval = Convert.ToString(dataGridView1.Rows[e.RowIndex].Cells["Status"].Value);
 
+
+                // Create a new instance of the form you want to open
+                if (approval == "Approved")
+                {
+                    this.Hide();
+                    SocietyDetails newForm = new SocietyDetails(societyID);
+
+                    // Show the new form
+                    newForm.Show();
+                } else
+                {
+                    MessageBox.Show("Approval Pending or Rejected, No Access to this society", "Error");
+                }
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

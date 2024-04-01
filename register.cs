@@ -87,5 +87,10 @@ namespace Societify
             Login loginPage = new Login();
             loginPage.Show();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
