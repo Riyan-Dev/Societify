@@ -84,6 +84,7 @@
             this.checkBoxshowpassword.TabIndex = 7;
             this.checkBoxshowpassword.Text = "show password";
             this.checkBoxshowpassword.UseVisualStyleBackColor = false;
+            this.checkBoxshowpassword.CheckedChanged += new System.EventHandler(this.checkBoxshowpassword_CheckedChanged);
             // 
             // loginbutton
             // 
