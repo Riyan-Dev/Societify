@@ -346,7 +346,7 @@ namespace Societify
                     connection.Open();
 
                     string query = @"
-            SELECT reqID, eventName, Date, registerationFee, Description
+            SELECT reqID, SocietyID, eventName, Date, registerationFee, Description
             FROM societyEventsApproval
             WHERE societyID = @SocietyID AND reqID = @EventID";
 

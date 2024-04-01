@@ -37,7 +37,7 @@ namespace Societify
             label14.Text = row["SocietyID"].ToString();
             label13.Text = row["EventName"].ToString();
             label10.Text = row["Date"].ToString();
-            label11.Text = row["RegistrationFee"].ToString();
+            label11.Text = row["registerationFee"].ToString();
             label12.Text = row["Description"].ToString();
         }
 
