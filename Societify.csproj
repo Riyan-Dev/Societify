@@ -65,6 +65,19 @@
     <Compile Include="eventRequestPanel.Designer.cs">
       <DependentUpon>eventRequestPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddEvent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddEvent.Designer.cs">
+      <DependentUpon>AddEvent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Society.cs" />
+    <Compile Include="SocietyDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SocietyDetails.Designer.cs">
+      <DependentUpon>SocietyDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="requestsList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,11 +131,17 @@
     <Compile Include="ViewSocietiesAdmin.Designer.cs">
       <DependentUpon>ViewSocietiesAdmin.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AddEvent.resx">
+      <DependentUpon>AddEvent.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="admindashboard.resx">
       <DependentUpon>admindashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="eventRequestPanel.resx">
       <DependentUpon>eventRequestPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SocietyDetails.resx">
+      <DependentUpon>SocietyDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="JoinSociety.resx">
       <DependentUpon>JoinSociety.cs</DependentUpon>

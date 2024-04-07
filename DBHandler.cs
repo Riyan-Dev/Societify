@@ -12,6 +12,141 @@ namespace Societify
 {
     class DBHandler
     {
+        public static DataTable GetSocietyEventsWithStatus(int societyID)
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = @"
+                    SELECT
+                        se.eventName,
+                        se.Date,
+                        se.registerationFee,
+                        CASE
+                            WHEN se.approved = 1 THEN 'Approved'
+                            WHEN se.approved = 0 AND sar.reqID IS NULL THEN 'Rejected'
+                            ELSE 'Approval Pending'
+                        END AS Status
+                    FROM
+                        societyEvents se
+                    LEFT JOIN
+                        societyEventsApproval sar ON se.societyID = sar.societyID AND se.eventID = sar.reqID
+                    WHERE
+                        se.societyID = @SocietyID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@SocietyID", societyID);
+
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+
+            return dt;
+        }
+        public static void InsertSocietyEvent(int societyID, string eventName, string date, string registrationFee, string description)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlTransaction transaction = connection.BeginTransaction();
+
+                try
+                {
+                    // Insert into societyEvents table
+                    string insertEventQuery = @"
+                INSERT INTO societyEvents (societyID, eventName, Date, registerationFee, Description, approved)
+                VALUES (@SocietyID, @EventName, @Date, @RegistrationFee, @Description, 0);
+            ";
+
+                    using (SqlCommand command = new SqlCommand(insertEventQuery, connection, transaction))
+                    {
+                        command.Parameters.AddWithValue("@SocietyID", societyID);
+                        command.Parameters.AddWithValue("@EventName", eventName);
+                        command.Parameters.AddWithValue("@Date", date);
+                        command.Parameters.AddWithValue("@RegistrationFee", registrationFee);
+                        command.Parameters.AddWithValue("@Description", description);
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Insert into societyEventsApproval table
+                    string insertEventApprovalQuery = @"
+                INSERT INTO societyEventsApproval (societyID, eventName, Date, registerationFee, Description)
+                VALUES (@SocietyID, @EventName, @Date, @RegistrationFee, @Description);
+            ";
+
+                    using (SqlCommand command = new SqlCommand(insertEventApprovalQuery, connection, transaction))
+                    {
+                        command.Parameters.AddWithValue("@SocietyID", societyID);
+                        command.Parameters.AddWithValue("@EventName", eventName);
+                        command.Parameters.AddWithValue("@Date", date);
+                        command.Parameters.AddWithValue("@RegistrationFee", registrationFee);
+                        command.Parameters.AddWithValue("@Description", description);
+                        command.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+            }
+        }
+
+        public static Society GetSocietyById(int societyId)
+        {
+            Society society = null;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = "SELECT * FROM Society WHERE SocietyID = @SocietyID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@SocietyID", societyId);
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        if (reader.Read())
+                        {
+                            society = new Society
+                            {
+                                SocietyID = Convert.ToInt32(reader["SocietyID"]),
+                                SocietyName = reader["SocietyName"].ToString(),
+                                MentorID = reader["MentorID"].ToString(),
+                                CreationDate = Convert.ToDateTime(reader["CreationDate"]),
+                                President_ID = reader["President_ID"].ToString(),
+                                Approved = Convert.ToBoolean(reader["approved"]),
+                                Description = reader["Description"].ToString()
+                            };
+                            Console.WriteLine(society.SocietyID);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+
+            return society;
+        }
         public static void UpdateSocietyApproval(int societyID, bool approvedValue)
         {
             try

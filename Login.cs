@@ -81,5 +81,17 @@ namespace Societify
             register newWindow = new register();
             newWindow.Show();
         }
+
+        private void checkBoxshowpassword_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxshowpassword.Checked)
+            {
+                textBox2.PasswordChar = '\0';
+            } else
+            {
+                textBox2.PasswordChar = '*';
+
+            }
+        }
     }
 }
