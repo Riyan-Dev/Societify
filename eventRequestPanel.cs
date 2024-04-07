@@ -34,10 +34,10 @@ namespace Societify
             DataTable dtReqDetails = GetSocietyEventsApprovalDetails(SocietyID,eventID);
             DataRow row = dtReqDetails.Rows[0];
             label7.Text = row["reqID"].ToString();
-            label14.Text = row["SocietyID"].ToString();
-            label13.Text = row["EventName"].ToString();
+            label14.Text = row["societyID"].ToString();
+            label13.Text = row["eventName"].ToString();
             label10.Text = row["Date"].ToString();
-            label11.Text = row["RegistrationFee"].ToString();
+            label11.Text = row["registrationFee"].ToString();
             label12.Text = row["Description"].ToString();
         }
 
@@ -46,7 +46,7 @@ namespace Societify
             UpdateSocietyEventApproval(SocietyID, eventID,true);
             DeleteSocietyEventApproval(SocietyID,eventID);
             this.Hide();
-            requestsList newWindow = new requestsList();
+            eventsRequestList newWindow = new eventsRequestList();
             newWindow.Show();
         }
 
@@ -55,7 +55,7 @@ namespace Societify
             UpdateSocietyEventApproval(SocietyID,eventID,false);
             DeleteSocietyEventApproval(SocietyID, eventID);
             this.Hide();
-            requestsList newWindow = new requestsList();
+            eventsRequestList newWindow = new eventsRequestList();
             newWindow.Show();
 
 

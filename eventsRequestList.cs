@@ -30,10 +30,6 @@ namespace Societify
             {
                 dataGridView1.DataSource = dtSocieties;
             }
-            else
-            {
-                MessageBox.Show("No societies found.");
-            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -48,10 +44,8 @@ namespace Societify
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
                 // Retrieve data from the selected row
-                int societyID = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["SocietyID"].Value);
+                int societyID = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["societyID"].Value);
                 int eventID = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["reqID"].Value);
-
-
 
                 // Create a new instance of the form you want to open
                 this.Hide();

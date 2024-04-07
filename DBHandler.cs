@@ -159,13 +159,13 @@ namespace Societify
                 {
                     connection.Open();
 
-                    string query = "UPDATE societyEvents SET approved = @ApprovedValue WHERE societyID = @SocietyID AND eventID = @EventID";
+                    string query = "UPDATE societyEvents SET approved = @ApprovedValue WHERE societyID = @societyID AND eventID = @eventID";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@ApprovedValue", approvedValue);
-                        command.Parameters.AddWithValue("@SocietyID", societyID);
-                        command.Parameters.AddWithValue("@EventID", eventID);
+                        command.Parameters.AddWithValue("@societyID", societyID);
+                        command.Parameters.AddWithValue("@eventID", eventID);
                         command.ExecuteNonQuery();
                     }
                 }
@@ -184,12 +184,12 @@ namespace Societify
                 {
                     connection.Open();
 
-                    string query = "DELETE FROM societyEventsApproval WHERE societyID = @SocietyID AND reqID = @EventID";
+                    string query = "DELETE FROM societyEventsApproval WHERE societyID = @societyID AND reqID = @eventID";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@SocietyID", societyID);
-                        command.Parameters.AddWithValue("@EventID", eventID);
+                        command.Parameters.AddWithValue("@societyID", societyID);
+                        command.Parameters.AddWithValue("@eventID", eventID);
                         command.ExecuteNonQuery();
                     }
                 }
@@ -211,14 +211,14 @@ namespace Societify
                     connection.Open();
 
                     string query = @"
-            SELECT reqID, eventName, Date, registerationFee, Description
-            FROM societyEventsApproval
-            WHERE societyID = @SocietyID AND reqID = @EventID";
+                    SELECT reqID, societyID,eventName, Date, registrationFee, Description
+                    FROM societyEventsApproval
+                    WHERE societyID = @societyID AND reqID = @eventID";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@SocietyID", societyID);
-                        command.Parameters.AddWithValue("@EventID", eventID);
+                        command.Parameters.AddWithValue("@societyID", societyID);
+                        command.Parameters.AddWithValue("@eventID", eventID);
 
                         using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                         {
