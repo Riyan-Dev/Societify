@@ -23,9 +23,12 @@ namespace Societify
             if (society.President_ID == user.UserID)
             {
                 addEvent.Visible = true;
+                button2.Visible = true;
             } else
             {
                 addEvent.Visible = false;
+                button2.Visible = false;
+
             }
 
             label4.Text = society.SocietyName;
@@ -61,6 +64,13 @@ namespace Societify
                 dataGridView1.DataSource = dtEvents;
             }
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            memberRequestsList newWindow = new memberRequestsList(society.SocietyID);
+            newWindow.Show();
         }
     }
 }

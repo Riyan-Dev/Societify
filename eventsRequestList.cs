@@ -30,10 +30,7 @@ namespace Societify
             {
                 dataGridView1.DataSource = dtSocieties;
             }
-            else
-            {
-                MessageBox.Show("No societies found.");
-            }
+           
         }
 
         private void button1_Click(object sender, EventArgs e)

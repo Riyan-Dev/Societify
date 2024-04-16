@@ -73,10 +73,7 @@ namespace Societify
 
                 AdjustDataGridViewHeight(dataGridView1);
             }
-            else
-            {
-                MessageBox.Show("No joined societies found.");
-            }
+           
 
             
 
@@ -110,6 +107,13 @@ namespace Societify
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Login loginPage = new Login();
+            loginPage.Show();
         }
     }
 }
