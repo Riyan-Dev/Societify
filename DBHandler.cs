@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Data;
 using static Societify.connectionStr;
-
+using Societify;
 namespace Societify
 {
     class DBHandler
@@ -345,7 +345,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
@@ -384,7 +384,7 @@ namespace Societify
         }
         public static void InsertSocietyEvent(int societyID, string eventName, string date, string registrationFee, string description)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionStr.str))
             {
                 connection.Open();
                 SqlTransaction transaction = connection.BeginTransaction();
@@ -439,7 +439,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
@@ -478,7 +478,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
@@ -502,7 +502,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
@@ -526,7 +526,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
@@ -561,7 +561,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
@@ -590,7 +590,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
@@ -617,17 +617,17 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
-                    string query = "UPDATE societyEvents SET approved = @ApprovedValue WHERE societyID = @SocietyID AND eventID = @EventID";
+                    string query = "UPDATE societyEvents SET approved = @ApprovedValue WHERE societyID = @societyID AND eventID = @eventID";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@ApprovedValue", approvedValue);
-                        command.Parameters.AddWithValue("@SocietyID", societyID);
-                        command.Parameters.AddWithValue("@EventID", eventID);
+                        command.Parameters.AddWithValue("@societyID", societyID);
+                        command.Parameters.AddWithValue("@eventID", eventID);
                         command.ExecuteNonQuery();
                     }
                 }
@@ -642,16 +642,16 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
-                    string query = "DELETE FROM societyEventsApproval WHERE societyID = @SocietyID AND reqID = @EventID";
+                    string query = "DELETE FROM societyEventsApproval WHERE societyID = @societyID AND reqID = @eventID";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@SocietyID", societyID);
-                        command.Parameters.AddWithValue("@EventID", eventID);
+                        command.Parameters.AddWithValue("@societyID", societyID);
+                        command.Parameters.AddWithValue("@eventID", eventID);
                         command.ExecuteNonQuery();
                     }
                 }
@@ -668,19 +668,19 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
                     string query = @"
-            SELECT reqID, SocietyID, eventName, Date, registerationFee, Description
-            FROM societyEventsApproval
-            WHERE societyID = @SocietyID AND reqID = @EventID";
+                    SELECT reqID, societyID,eventName, Date, registrationFee, Description
+                    FROM societyEventsApproval
+                    WHERE societyID = @societyID AND reqID = @eventID";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@SocietyID", societyID);
-                        command.Parameters.AddWithValue("@EventID", eventID);
+                        command.Parameters.AddWithValue("@societyID", societyID);
+                        command.Parameters.AddWithValue("@eventID", eventID);
 
                         using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                         {
@@ -702,7 +702,7 @@ namespace Societify
             DataTable dt = new DataTable();
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
@@ -744,7 +744,7 @@ namespace Societify
             WHERE s.President_ID = @UserID
         )";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionStr.str))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -794,7 +794,7 @@ namespace Societify
     INNER JOIN societyRoles sr ON mar.rollID = sr.rollID
     WHERE mar.UserID = @UserID;";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionStr.str))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -849,7 +849,7 @@ namespace Societify
                            "JOIN societyRoles sr ON sm.rollID = sr.rollID " +
                            "WHERE sm.UserID = @UserID";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionStr.str))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -900,7 +900,7 @@ namespace Societify
             string query = @"INSERT INTO MemberApprovalRequests (SocietyID, UserID, rollID, TeamID, purpose, motivation, AboutYou, PastExp)
                          VALUES (@SocietyID, @UserID, @RollID, @TeamID, @Purpose, @Motivation, @AboutYou, @PastExp)";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionStr.str))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -924,7 +924,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     // SQL query to retrieve remaining slots
                     string query = @"
@@ -965,7 +965,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
@@ -1003,7 +1003,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
@@ -1029,7 +1029,7 @@ namespace Societify
             string query = @"INSERT INTO SocietyApprovalRequests (societyID, purpose, motivation, AboutYou, PastExp, PlannedEvent)
                          VALUES (@SocietyID, @Purpose, @Motivation, @AboutYou, @PastExp, @PlannedEvent)";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionStr.str))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -1055,7 +1055,7 @@ namespace Societify
         VALUES (@SocietyName, @MentorID, @CreationDate, @PresidentID, @Approved, @Description);
         SELECT SCOPE_IDENTITY();"; // Query to insert and retrieve the autogenerated SocietyID
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionStr.str))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -1081,7 +1081,7 @@ namespace Societify
             string query = @"INSERT INTO Users (UserID, Password, Email, DOB)
                          VALUES (@UserID, @Password, @Email, @DOB)";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionStr.str))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -1101,7 +1101,7 @@ namespace Societify
             string query = @"INSERT INTO student (UserID, Department, Batch)
                          VALUES (@UserID, @Department, @Batch)";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionStr.str))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -1116,55 +1116,57 @@ namespace Societify
         }
 
         public static User Login(string userID, string password)
-    {
-        string query = @"SELECT U.UserID, U.Password, U.Email, U.DOB,
-                                S.Department AS StudentDepartment, S.Batch AS StudentBatch,
-                                M.Department AS MentorDepartment,
-                                A.UserID AS AdminID
-                         FROM Users U
-                         LEFT JOIN student S ON U.UserID = S.UserID
-                         LEFT JOIN Mentor M ON U.UserID = M.UserID
-                         LEFT JOIN Admin A ON U.UserID = A.UserID
-                         WHERE U.UserID = @UserID AND U.Password = @Password";
-
-        using (SqlConnection connection = new SqlConnection(connectionString))
         {
-            connection.Open();
-            using (SqlCommand command = new SqlCommand(query, connection))
+            string query = @"SELECT U.UserID, U.Password, U.Email, U.DOB,
+                            S.Department AS StudentDepartment, S.Batch AS StudentBatch,
+                            M.Department AS MentorDepartment,
+                            A.UserID AS AdminID
+                     FROM Users U
+                     LEFT JOIN student S ON U.UserID = S.UserID
+                     LEFT JOIN Mentor M ON U.UserID = M.UserID
+                     LEFT JOIN Admin A ON U.UserID = A.UserID
+                     WHERE U.UserID = @UserID AND U.Password = @Password";
+
+            using (SqlConnection connection = new SqlConnection(connectionStr.str))
             {
-                command.Parameters.AddWithValue("@UserID", userID);
-                command.Parameters.AddWithValue("@Password", password);
-
-                using (SqlDataReader reader = command.ExecuteReader())
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    if (reader.Read())
-                    {
-                        string userType = reader["StudentDepartment"] != DBNull.Value ? "Student" :
-                                          reader["MentorDepartment"] != DBNull.Value ? "Mentor" :
-                                          reader["AdminID"] != DBNull.Value ? "Admin" : "";
+                    command.Parameters.AddWithValue("@UserID", userID);
+                    command.Parameters.AddWithValue("@Password", password);
 
-                        switch (userType)
-                        {
-                            case "Student":
-                                return PopulateStudent(reader);
-                            case "Mentor":
-                                return PopulateMentor(reader);
-                            case "Admin":
-                                return PopulateAdmin(reader);
-                            default:
-                                return null; // No matching user type
-                        }
-                    }
-                    else
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        return null; // User not found
+                        if (reader.Read())
+                        {
+                            // Determine user type
+                            string userType = reader["StudentDepartment"] != DBNull.Value ? "Student" :
+                                              reader["MentorDepartment"] != DBNull.Value ? "Mentor" :
+                                              reader["AdminID"] != DBNull.Value ? "Admin" : "";
+
+                            switch (userType)
+                            {
+                                case "Student":
+                                    return PopulateStudent(reader);
+                                case "Mentor":
+                                    return PopulateMentor(reader);
+                                case "Admin":
+                                    return PopulateAdmin(reader); // Return Admin object
+                                default:
+                                    return null; // No matching user type
+                            }
+                        }
+                        else
+                        {
+                            return null; // User not found
+                        }
                     }
                 }
             }
         }
-    }
 
-    private static Student PopulateStudent(SqlDataReader reader)
+
+        private static Student PopulateStudent(SqlDataReader reader)
     {
         return new Student
         {
@@ -1199,7 +1201,74 @@ namespace Societify
             DOB = Convert.ToDateTime(reader["DOB"])
         };
     }
+
+
+
+
+
+        public static DataTable GetSocietyEventsForStudent(string userID)
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                {
+                    connection.Open();
+
+                    string query = @"
+                SELECT se.eventID, se.societyID, se.eventName, se.Date, se.registrationFee, se.Description
+                FROM societyEvents se
+                INNER JOIN societyMembers sm ON se.societyID = sm.SocietyID
+                LEFT JOIN societyEventsApproval sea ON se.eventID = sea.reqID AND se.societyID = sea.societyID
+                WHERE sm.UserID = @UserID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserID", userID);
+
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                        {
+                            adapter.Fill(dt);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it appropriately
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
+            return dt;
+        }
+
+
+
+
+
+
+
+
+
     }
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
