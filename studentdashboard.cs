@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Societify.DBHandler; 
-using static Societify.Constants; 
+using static Societify.DBHandler;
+using static Societify.Constants;
 
 namespace Societify
 {
@@ -64,7 +64,7 @@ namespace Societify
         {
             // Assuming you have a method to retrieve joined societies for the current student
             DataTable dtJoinedSocieties = GetJoinedSocietiesForStudent(user.UserID); // Implement this method according to your database structure and logic
-            dtJoinedSocieties.Merge( GetApprovalPendingRequests(user.UserID));
+            dtJoinedSocieties.Merge(GetApprovalPendingRequests(user.UserID));
             dtJoinedSocieties.Merge(GetYourSocietiesForStudent(user.UserID));
 
             if (dtJoinedSocieties != null && dtJoinedSocieties.Rows.Count > 0)
@@ -79,23 +79,20 @@ namespace Societify
                 dataGridView1.Columns["rollName"].HeaderText = "Role";
 
                 // Add a new column named "Status" with the value "Approved" to each row
-               
+
                 dataGridView1.Columns["SocietyID"].Visible = false;
 
                 AdjustDataGridViewHeight(dataGridView1);
             }
-            else
-            {
-                MessageBox.Show("No joined societies found.");
-            }
+           
 
-            
 
-            
+
+
         }
 
-       private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-{
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
             if (e.RowIndex >= 0)
             {
                 // Retrieve data from the selected row
@@ -111,7 +108,8 @@ namespace Societify
 
                     // Show the new form
                     newForm.Show();
-                } else
+                }
+                else
                 {
                     MessageBox.Show("Approval Pending or Rejected, No Access to this society", "Error");
                 }
@@ -126,6 +124,13 @@ namespace Societify
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Login loginPage = new Login();
+            loginPage.Show();
         }
     }
 }

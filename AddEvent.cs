@@ -47,5 +47,10 @@ namespace Societify
             SocietyDetails newWindow = new SocietyDetails(Sid);
             newWindow.Show();
         }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

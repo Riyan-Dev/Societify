@@ -8,11 +8,337 @@ using System.Windows.Forms;
 using System.Data;
 using static Societify.connectionStr;
 using Societify;
-
 namespace Societify
 {
     class DBHandler
     {
+        public static void InsertMentor(string userID, string department)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"
+                INSERT INTO Mentor (UserID, Department)
+                VALUES (@UserID, @Department)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserID", userID);
+                        command.Parameters.AddWithValue("@Department", department);
+
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+
+        public static void InsertStudent(string userID, string department, string batch)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"
+                INSERT INTO student (UserID, Department, Batch)
+                VALUES (@UserID, @Department, @Batch)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserID", userID);
+                        command.Parameters.AddWithValue("@Department", department);
+                        command.Parameters.AddWithValue("@Batch", batch);
+
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+
+        public static void InsertUser(string userID, string name, string password, string email, DateTime dob)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"
+                INSERT INTO Users (UserID, Name, Password, Email, DOB)
+                VALUES (@UserID, @Name, @Password, @Email, @DOB)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserID", userID);
+                        command.Parameters.AddWithValue("@Name", name);
+                        command.Parameters.AddWithValue("@Password", password);
+                        command.Parameters.AddWithValue("@Email", email);
+                        command.Parameters.AddWithValue("@DOB", dob);
+
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+
+        public static DataTable GetUserByEmailOrUserID(string userID, string email)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    // SQL query to retrieve user data based on UserID or Email
+                    string query = @"
+                SELECT *
+                FROM Users
+                WHERE UserID = @UserID OR Email = @Email";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        // Add parameters to the command
+                        command.Parameters.AddWithValue("@UserID", userID);
+                        command.Parameters.AddWithValue("@Email", email);
+
+                        // Open the connection
+                        connection.Open();
+
+                        // Execute the query and fill the DataTable with the results
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                        {
+                            adapter.Fill(dataTable);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+
+            return dataTable;
+        }
+
+        public static int GetMemberCount(int societyID, int rollID, int teamID)
+        {
+            int memberCount = 0;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = @"SELECT COUNT(*) AS memberCount 
+                                 FROM societyMembers 
+                                 WHERE societyID = @SocietyID 
+                                 AND rollID = @RollID 
+                                 AND teamID = @TeamID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@SocietyID", societyID);
+                        command.Parameters.AddWithValue("@RollID", rollID);
+                        command.Parameters.AddWithValue("@TeamID", teamID);
+
+                        memberCount = Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+
+            return memberCount;
+        }
+        public static void DeleteMemberApprovalRequests(int societyID, int rollID, int teamID)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = @"DELETE FROM MemberApprovalRequests 
+                                 WHERE SocietyID = @SocietyID 
+                                 AND rollID = @rollID 
+                                 AND TeamID = @TeamID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@SocietyID", societyID);
+                        command.Parameters.AddWithValue("@rollID", rollID);
+                        command.Parameters.AddWithValue("@TeamID", teamID);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        Console.WriteLine($"{rowsAffected} member approval requests deleted.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+        public static void AddSocietyMember(int societyID, string userID, int rollID, int teamID, bool approved)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = @"INSERT INTO societyMembers (SocietyID, UserID, rollID, TeamID, approved)
+                             VALUES (@SocietyID, @UserID, @RollID, @TeamID, @Approved)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@SocietyID", societyID);
+                        command.Parameters.AddWithValue("@UserID", userID);
+                        command.Parameters.AddWithValue("@RollID", rollID);
+                        command.Parameters.AddWithValue("@TeamID", teamID);
+                        command.Parameters.AddWithValue("@Approved", approved);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+
+
+        public static void DeleteMemberApprovalRequest(int reqID)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = "DELETE FROM MemberApprovalRequests WHERE reqID = @ReqID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@ReqID", reqID);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+
+
+        public static MemberApprovalRequest GetApprovalRequestByReqID(int reqID)
+        {
+            MemberApprovalRequest request = null;
+
+            string query = @"
+        SELECT
+            reqID,
+            SocietyID,
+            UserID,
+            rollID,
+            TeamID,
+            purpose,
+            motivation,
+            AboutYou,
+            PastExp
+        FROM
+            MemberApprovalRequests
+        WHERE
+            reqID = @ReqID;
+    ";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ReqID", reqID);
+
+                    try
+                    {
+                        connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        if (reader.Read())
+                        {
+                            request = new MemberApprovalRequest();
+                            request.ReqID = reader.GetInt32(0);
+                            request.SocietyID = reader.GetInt32(1);
+                            request.UserID = reader.GetString(2);
+                            request.RollID = reader.GetInt32(3);
+                            request.TeamID = reader.GetInt32(4);
+                            request.Purpose = reader.GetString(5);
+                            request.Motivation = reader.GetString(6);
+                            request.AboutYou = reader.GetString(7);
+                            request.PastExp = reader.GetString(8);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                    }
+                }
+            }
+
+            return request;
+        }
+
+
+        public static DataTable GetMemberApprovalRequests(int societyID)
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                {
+                    connection.Open();
+
+                    string query = @"
+                    SELECT mar.reqID, u.NAME AS UserName, t.teamName AS TeamName, sr.rollName AS RoleName
+                    FROM MemberApprovalRequests mar
+                    JOIN Users u ON mar.UserID = u.UserID
+                    JOIN Teams t ON mar.TeamID = t.TeamID
+                    JOIN societyRoles sr ON mar.rollID = sr.rollID
+                    WHERE mar.SocietyID = @SocietyID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@SocietyID", societyID);
+
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+
+            return dt;
+        }
+
         public static DataTable GetSocietyEventsWithStatus(int societyID)
         {
             DataTable dt = new DataTable();
@@ -606,6 +932,7 @@ namespace Societify
                         FROM societyRoles sr
                         LEFT JOIN societyMembers sm ON sr.rollID = sm.rollID AND sm.TeamID = @teamID AND sm.SocietyID = @societyID
                         GROUP BY sr.rollID, sr.rollName, sr.numbers
+                        
                         HAVING sr.numbers - COUNT(sm.UserID) > 0 OR COUNT(sm.UserID) IS NULL";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
@@ -789,55 +1116,57 @@ namespace Societify
         }
 
         public static User Login(string userID, string password)
-    {
-        string query = @"SELECT U.UserID, U.Password, U.Email, U.DOB,
-                                S.Department AS StudentDepartment, S.Batch AS StudentBatch,
-                                M.Department AS MentorDepartment,
-                                A.UserID AS AdminID
-                         FROM Users U
-                         LEFT JOIN student S ON U.UserID = S.UserID
-                         LEFT JOIN Mentor M ON U.UserID = M.UserID
-                         LEFT JOIN Admin A ON U.UserID = A.UserID
-                         WHERE U.UserID = @UserID AND U.Password = @Password";
-
-        using (SqlConnection connection = new SqlConnection(connectionStr.str))
         {
-            connection.Open();
-            using (SqlCommand command = new SqlCommand(query, connection))
+            string query = @"SELECT U.UserID, U.Password, U.Email, U.DOB,
+                            S.Department AS StudentDepartment, S.Batch AS StudentBatch,
+                            M.Department AS MentorDepartment,
+                            A.UserID AS AdminID
+                     FROM Users U
+                     LEFT JOIN student S ON U.UserID = S.UserID
+                     LEFT JOIN Mentor M ON U.UserID = M.UserID
+                     LEFT JOIN Admin A ON U.UserID = A.UserID
+                     WHERE U.UserID = @UserID AND U.Password = @Password";
+
+            using (SqlConnection connection = new SqlConnection(connectionStr.str))
             {
-                command.Parameters.AddWithValue("@UserID", userID);
-                command.Parameters.AddWithValue("@Password", password);
-
-                using (SqlDataReader reader = command.ExecuteReader())
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    if (reader.Read())
-                    {
-                        string userType = reader["StudentDepartment"] != DBNull.Value ? "Student" :
-                                          reader["MentorDepartment"] != DBNull.Value ? "Mentor" :
-                                          reader["AdminID"] != DBNull.Value ? "Admin" : "";
+                    command.Parameters.AddWithValue("@UserID", userID);
+                    command.Parameters.AddWithValue("@Password", password);
 
-                        switch (userType)
-                        {
-                            case "Student":
-                                return PopulateStudent(reader);
-                            case "Mentor":
-                                return PopulateMentor(reader);
-                            case "Admin":
-                                return PopulateAdmin(reader);
-                            default:
-                                return null; // No matching user type
-                        }
-                    }
-                    else
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        return null; // User not found
+                        if (reader.Read())
+                        {
+                            // Determine user type
+                            string userType = reader["StudentDepartment"] != DBNull.Value ? "Student" :
+                                              reader["MentorDepartment"] != DBNull.Value ? "Mentor" :
+                                              reader["AdminID"] != DBNull.Value ? "Admin" : "";
+
+                            switch (userType)
+                            {
+                                case "Student":
+                                    return PopulateStudent(reader);
+                                case "Mentor":
+                                    return PopulateMentor(reader);
+                                case "Admin":
+                                    return PopulateAdmin(reader); // Return Admin object
+                                default:
+                                    return null; // No matching user type
+                            }
+                        }
+                        else
+                        {
+                            return null; // User not found
+                        }
                     }
                 }
             }
         }
-    }
 
-    private static Student PopulateStudent(SqlDataReader reader)
+
+        private static Student PopulateStudent(SqlDataReader reader)
     {
         return new Student
         {
@@ -873,9 +1202,14 @@ namespace Societify
         };
     }
 
+
+
+
+
         public static DataTable GetSocietyEventsForStudent(string userID)
         {
             DataTable dt = new DataTable();
+
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionStr.str))
@@ -918,6 +1252,24 @@ namespace Societify
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 
