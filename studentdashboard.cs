@@ -18,7 +18,18 @@ namespace Societify
         {
             InitializeComponent();
             LoadJoinedSocieties();
+            LoadSocietyEvents(Constants.user.UserID);
+
         }
+
+        private void LoadSocietyEvents(string userID)
+        {
+            // Retrieve events for the specified society ID
+            DataTable dtSocietyEvents = GetSocietyEventsForStudent(userID); // Implement this method according to your database structure and logic
+            dataGridView2.DataSource = dtSocietyEvents;
+            AdjustDataGridViewHeight(dataGridView2);
+        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -106,6 +117,11 @@ namespace Societify
                 }
             }
         }
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+        }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {

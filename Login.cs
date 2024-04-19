@@ -52,6 +52,7 @@ namespace Societify
 
             if (user is Student)
             {
+                // Assuming your User object has a property called UserId which stores the user ID
                 this.Hide();
                 Form1 sdashboard = new Form1();
                 sdashboard.Show();
