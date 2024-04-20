@@ -98,7 +98,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button1);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Name = "eventsrequestsList";
+            this.Name = "AdminEventsrequestsList";
             this.Text = "Request List";
             this.Load += new System.EventHandler(this.requestsList_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

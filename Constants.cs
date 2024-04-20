@@ -7,7 +7,6 @@ using static Societify.User;
 
 namespace Societify
 {
-
     class Constants
     {
         public static User user;
