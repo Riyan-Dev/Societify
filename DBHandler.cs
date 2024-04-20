@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Data;
-using static Societify.connectionStr;
-using Societify;
 namespace Societify
 {
     class DBHandler
@@ -16,7 +14,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     string query = @"
                 INSERT INTO Mentor (UserID, Department)
@@ -37,12 +35,11 @@ namespace Societify
                 Console.WriteLine("Error: " + ex.Message);
             }
         }
-
         public static void InsertStudent(string userID, string department, string batch)
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     string query = @"
                 INSERT INTO student (UserID, Department, Batch)
@@ -69,7 +66,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     string query = @"
                 INSERT INTO Users (UserID, Name, Password, Email, DOB)
@@ -100,7 +97,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     // SQL query to retrieve user data based on UserID or Email
                     string query = @"
@@ -139,7 +136,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
                     string query = @"SELECT COUNT(*) AS memberCount 
@@ -169,7 +166,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
                     string query = @"DELETE FROM MemberApprovalRequests 
@@ -197,7 +194,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
@@ -227,7 +224,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
                 {
                     connection.Open();
 
@@ -268,7 +265,7 @@ namespace Societify
             reqID = @ReqID;
     ";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionStr.str))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -474,6 +471,29 @@ namespace Societify
 
             return society;
         }
+
+        public static void UpdateSocietyVerification(int societyID, bool verifiedValue)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                {
+                    connection.Open();
+                    string query = "UPDATE SocietyApprovalRequests SET Verified = @VerifiedValue WHERE societyID = @SocietyID";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@VerifiedValue", verifiedValue);
+                        command.Parameters.AddWithValue("@SocietyID", societyID);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating Society approval status: " + ex.Message);
+            }
+        }
+
         public static void UpdateSocietyApproval(int societyID, bool approvedValue)
         {
             try
@@ -554,7 +574,6 @@ namespace Societify
 
             return dt;
         }
-
         public static DataTable GetSocietiesInApprovalRequests()
         {
             DataTable dt = new DataTable();
@@ -568,7 +587,8 @@ namespace Societify
                     string query = @"
                 SELECT sa.societyID, s.SocietyName, s.President_ID
                 FROM SocietyApprovalRequests sa
-                JOIN Society s ON sa.societyID = s.SocietyID";
+                JOIN Society s ON sa.societyID = s.SocietyID
+                WHERE sa.Verified = 1";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -584,6 +604,62 @@ namespace Societify
 
             return dt;
         }
+        public static DataTable GetSocietiesVerificationRequests()
+        {
+            DataTable dt = new DataTable();
+            string id = Constants.user.UserID;
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                {
+
+                connection.Open();
+                string query = @"
+                SELECT sa.societyID, s.SocietyName, s.President_ID
+                FROM SocietyApprovalRequests sa
+                JOIN Society s ON sa.societyID = s.SocietyID 
+                WHERE s.mentorID = @MentorID AND sa.Verified = 0"; 
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@MentorID", id);
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
+            return dt;
+        }
+
+
+        public static void UpdateSocietyVerificationMentor(int societyID)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                {
+                    connection.Open();
+
+                    string query = "UPDATE Society SET MentorID = NULL WHERE SocietyID = @SocietyID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@SocietyID", societyID);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating Society mentor verification: " + ex.Message);
+            }
+        }
+
         public static DataTable GetSocietiesInEventsApprovalRequests()
         {
             DataTable dt = new DataTable();
@@ -596,7 +672,8 @@ namespace Societify
 
                     string query = @"
             SELECT reqID, societyID, eventName
-            FROM societyEventsApproval";
+            FROM societyEventsApproval
+            WHERE Verified = 1";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -613,6 +690,61 @@ namespace Societify
             return dt;
         }
 
+        public static DataTable GetSocietiesInEventsVerificationRequests()
+        {
+            DataTable dt = new DataTable();
+            String mentorID = Constants.user.UserID;   
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                {
+                    connection.Open();
+                    string query = @"
+            SELECT sea.reqID, sea.societyID, sea.eventName
+            FROM societyEventsApproval sea
+            INNER JOIN Society s ON sea.societyID = s.SocietyID
+            WHERE sea.Verified = 0 AND s.MentorID = @MentorID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@MentorID", mentorID);
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
+            return dt;
+        }
+        public static void UpdateSocietyEventsVerification(int societyID,int eventID)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                {
+                    connection.Open();
+                    string query = @"UPDATE sea SET sea.Verified = 1 FROM societyEventsApproval sea
+                    INNER JOIN societyEvents se ON sea.societyID = se.societyID
+                    WHERE se.societyID = @SocietyID AND se.eventID = @EventID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    { 
+                        command.Parameters.AddWithValue("@SocietyID", societyID);
+                        command.Parameters.AddWithValue("@eventID", eventID);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating Society approval status: " + ex.Message);
+            }
+        }
         public static void UpdateSocietyEventApproval(int societyID, int eventID, bool approvedValue)
         {
             try
@@ -653,6 +785,40 @@ namespace Societify
                         command.Parameters.AddWithValue("@societyID", societyID);
                         command.Parameters.AddWithValue("@eventID", eventID);
                         command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting societyEventsApproval: " + ex.Message);
+            }
+        }
+
+        public static void DeleteSocietyEventVerification(int societyID, int eventID)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                {
+                    connection.Open();
+
+                    string query = "DELETE FROM societyEventsApproval WHERE societyID = @societyID AND reqID = @eventID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@societyID", societyID);
+                        command.Parameters.AddWithValue("@eventID", eventID);
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Delete from societyEvents table
+                    string eventsQuery = "DELETE FROM societyEvents WHERE societyID = @societyID AND eventID = @eventID";
+
+                    using (SqlCommand eventsCommand = new SqlCommand(eventsQuery, connection))
+                    {
+                        eventsCommand.Parameters.AddWithValue("@societyID", societyID);
+                        eventsCommand.Parameters.AddWithValue("@eventID", eventID);
+                        eventsCommand.ExecuteNonQuery();
                     }
                 }
             }
@@ -710,6 +876,34 @@ namespace Societify
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
+            return dt;
+        }
+
+        public static DataTable GetSocietyNamesAndIDsForMentor()
+        {
+            DataTable dt = new DataTable();
+            string mentorID = Constants.user.UserID;   
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                {
+                    connection.Open();
+
+                    string query = "SELECT SocietyID, SocietyName, President_ID,approved FROM Society WHERE MentorID = @MentorID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@MentorID", mentorID);
                         SqlDataAdapter adapter = new SqlDataAdapter(command);
                         adapter.Fill(dt);
                     }

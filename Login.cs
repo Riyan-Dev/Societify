@@ -59,6 +59,9 @@ namespace Societify
                 
             } else if (user is Mentor)
             {
+                this.Hide();
+                Mentordashboard mdashboard = new Mentordashboard();
+                mdashboard.Show();
 
             } else if (user is Admin)
             {

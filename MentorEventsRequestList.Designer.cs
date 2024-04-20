@@ -1,6 +1,6 @@
 ﻿namespace Societify
 {
-    partial class eventsRequestList
+    partial class MentorEventsRequestList
     {
         /// <summary>
         /// Required designer variable.
@@ -26,7 +26,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-         
+
         private void InitializeComponent()
         {
 
@@ -98,9 +98,9 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button1);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Name = "AdminEventsrequestsList";
+            this.Name = "MentorEventsrequestsList";
             this.Text = "Request List";
-            this.Load += new System.EventHandler(this.requestsList_Load);
+            this.Load += new System.EventHandler(this.MentorEventsRequestsList_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
         }

@@ -1,7 +1,7 @@
 ﻿
 namespace Societify
 {
-    partial class requestsList
+    partial class MentorSocietyRequestList
     {
         /// <summary>
         /// Required designer variable.

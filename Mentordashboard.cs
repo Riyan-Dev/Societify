@@ -7,35 +7,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 namespace Societify
-{
-    public partial class admindashboard : Form
+{ 
+    public partial class Mentordashboard : Form
     {
-        public admindashboard()
+        public Mentordashboard()
         {
             InitializeComponent();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            ViewSocietiesAdmin newWindow = new ViewSocietiesAdmin();
-            newWindow.Show();
+            //this.Hide();
+            //ViewSocietiesAdmin newWindow = new ViewSocietiesAdmin();
+            //newWindow.Show();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            AdminrequestsList newWindow = new AdminrequestsList();
+            MentorSocietyRequestList newWindow = new MentorSocietyRequestList();
+            newWindow.Show();
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            this.Hide();
+            ViewSocietiesMentor newWindow = new ViewSocietiesMentor();
             newWindow.Show();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             this.Hide();
-            eventsRequestList newWindow = new eventsRequestList();
+            MentorEventsRequestList newWindow = new MentorEventsRequestList();
             newWindow.Show();
         }
+
     }
 }
