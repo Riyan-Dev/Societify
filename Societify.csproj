@@ -57,6 +57,12 @@
       <DependentUpon>admindashboard.cs</DependentUpon>
     </Compile>
     <Compile Include="connectionstr.cs" />
+    <Compile Include="descriptiondash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="descriptiondash.Designer.cs">
+      <DependentUpon>descriptiondash.cs</DependentUpon>
+    </Compile>
     <Compile Include="eventsRequestList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,6 +195,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="admindashboard.resx">
       <DependentUpon>admindashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="descriptiondash.resx">
+      <DependentUpon>descriptiondash.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="eventRequestPanel.resx">
       <DependentUpon>eventRequestPanel.cs</DependentUpon>

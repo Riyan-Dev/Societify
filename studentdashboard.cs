@@ -27,8 +27,19 @@ namespace Societify
             // Retrieve events for the specified society ID
             DataTable dtSocietyEvents = GetSocietyEventsForStudent(userID); // Implement this method according to your database structure and logic
             dataGridView2.DataSource = dtSocietyEvents;
-            AdjustDataGridViewHeight(dataGridView2);
+
+            dataGridView2.ReadOnly = true;
+            dataGridView2.DefaultCellStyle.BackColor = Color.FromArgb(190, 210, 240);
+            
+
+            AdjustDataGridView(dataGridView2);
         }
+
+
+  
+
+
+
 
 
         private void button1_Click(object sender, EventArgs e)
@@ -44,6 +55,22 @@ namespace Societify
             JoinSociety newWindow = new JoinSociety();
             newWindow.Show();
         }
+
+
+        private void AdjustDataGridView(DataGridView dataGridView)
+        {
+            // Auto resize all columns to fit their contents
+            dataGridView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+            // Calculate the total width of all columns
+            int totalWidth = dataGridView.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
+
+            // Adjust the width of the DataGridView to fit its content without horizontal scrollbar
+            dataGridView.Width = totalWidth + SystemInformation.VerticalScrollBarWidth;
+        }
+
+
+
 
 
         private void AdjustDataGridViewHeight(DataGridView dataGridView)
@@ -117,9 +144,24 @@ namespace Societify
         }
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
+            // Check if the clicked cell is the Description cell
+            if (e.ColumnIndex == dataGridView2.Columns["Description"].Index && e.RowIndex >= 0)
+            {
+                // Get the description from the clicked cell
+                string description = dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+
+                // Open a new form to display the description
+                descriptiondash descriptionForm = new descriptiondash(description);
+                descriptionForm.Show();
+            }
+
         }
 
+
+
+
+    
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -131,6 +173,11 @@ namespace Societify
             this.Hide();
             Login loginPage = new Login();
             loginPage.Show();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
