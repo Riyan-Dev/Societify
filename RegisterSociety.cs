@@ -69,6 +69,40 @@ namespace Societify
             Form1 sdashboard = new Form1();
             sdashboard.Show();
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        // Event handler for the Terms and Conditions button
+        private void termsButton_Click(object sender, EventArgs e)
+        {
+            // Define the terms and conditions text
+            string termsAndConditionsText =
+                "1. You must follow all society rules and regulations.\n" +
+                "2. Participation in events is voluntary but encouraged.\n" +
+                "3. Respect other members and society property.\n" +
+                "4. No discrimination or harassment will be tolerated.\n" +
+                "5. The society reserves the right to update these terms.";
+
+            // Display the terms and conditions in a message box
+            MessageBox.Show(termsAndConditionsText, "Terms and Conditions");
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

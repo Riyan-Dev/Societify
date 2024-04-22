@@ -152,6 +152,21 @@ namespace Societify
         }
 
 
+        private void termsButton_Click(object sender, EventArgs e)
+        {
+            // Define the terms and conditions text
+            string termsAndConditionsText =
+                "1. You must follow all society rules and regulations.\n" +
+                "2. Participation in events is voluntary but encouraged.\n" +
+                "3. Respect other members and society property.\n" +
+                "4. No discrimination or harassment will be tolerated.\n" +
+                "5. The society reserves the right to update these terms.";
+
+            // Display the terms and conditions in a message box
+            MessageBox.Show(termsAndConditionsText, "Terms and Conditions");
+        }
+
+
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -180,6 +195,25 @@ namespace Societify
             this.Close();
             Form1 sdashboard = new Form1();
             sdashboard.Show();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // Define the terms and conditions text
+            string termsAndConditionsText =
+                "1. You must follow all society rules and regulations.\n" +
+                "2. Participation in events is voluntary but encouraged.\n" +
+                "3. Respect other members and society property.\n" +
+                "4. No discrimination or harassment will be tolerated.\n" +
+                "5. The society reserves the right to update these terms.";
+
+            // Display the terms and conditions in a message box
+            MessageBox.Show(termsAndConditionsText, "Terms and Conditions");
         }
     }
 }
