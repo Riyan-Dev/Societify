@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -11,19 +12,20 @@ using static Societify.DBHandler;
 
 namespace Societify
 {
-    public partial class Form2 : Form
+    public partial class MentorSocietyRequestPanel : Form
     {
         int SocietyID = 0;
-        public Form2(int ID)
+        public MentorSocietyRequestPanel(int ID)
         {
             InitializeComponent();
             this.SocietyID = ID;
         }
 
+
         private void button2_Click(object sender, EventArgs e)
         {
             this.Hide();
-            AdminrequestsList newWindow = new AdminrequestsList();
+            MentorSocietyRequestList newWindow = new MentorSocietyRequestList();
             newWindow.Show();
         }
 
@@ -41,22 +43,24 @@ namespace Societify
 
         private void registerbutton_Click(object sender, EventArgs e)
         {
-            UpdateSocietyApproval(SocietyID, true);
-            DeleteSocietyApprovalRequests(SocietyID);
+            UpdateSocietyVerification(SocietyID, true);
             this.Hide();
-            AdminrequestsList newWindow = new AdminrequestsList();
+            MentorSocietyRequestList newWindow = new MentorSocietyRequestList();
             newWindow.Show();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            UpdateSocietyApproval(SocietyID, false);
-            DeleteSocietyApprovalRequests(SocietyID);
+            UpdateSocietyVerificationMentor(SocietyID);
             this.Hide();
-            AdminrequestsList newWindow = new AdminrequestsList();
+            MentorSocietyRequestList newWindow = new MentorSocietyRequestList();
             newWindow.Show();
 
 
         }
+
     }
 }
+
+
+

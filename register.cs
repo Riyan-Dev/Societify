@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Societify.DBHandler;
@@ -114,6 +115,21 @@ namespace Societify
                 return;
             }
 
+            // Validate email format
+            if (!IsValidEmail(textBox4.Text))
+            {
+                MessageBox.Show("Please enter a valid email address", "Invalid Email");
+                return;
+            }
+
+            // Validate password requirements
+            if (!IsValidPassword(textBox3.Text))
+            {
+                MessageBox.Show("Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.", "Invalid Password");
+                return;
+            }
+          
+
             if (textBox2.Text != textBox3.Text)
             {
                 MessageBox.Show("Kindly Enter Correct Confirm Password", "Password Mismatch");
@@ -151,6 +167,20 @@ namespace Societify
             {
                 MessageBox.Show("Kindly Select User Type", "Incomplete Info");
             }
+        }
+
+        // Method to validate email format using regex
+        private bool IsValidEmail(string email)
+        {
+            string emailRegex = @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
+            return Regex.IsMatch(email, emailRegex);
+        }
+
+        // Method to validate password format
+        private bool IsValidPassword(string password)
+        {
+            string passwordRegex = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$";
+            return Regex.IsMatch(password, passwordRegex);
         }
 
         private void loginFun()
@@ -219,6 +249,11 @@ namespace Societify
                     }
                 }
             }
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -15,7 +15,6 @@ namespace Societify
 {
     public partial class RegisterSociety : Form
     {
-        
         public RegisterSociety()
         {
             InitializeComponent();
@@ -47,8 +46,7 @@ namespace Societify
             if (checkBox1.Checked)
             {
                 int id = InsertIntoSociety(textBox1.Text, null, DateTime.Now, user.UserID, false, textBox4.Text);
-
-               InsertIntoSocietyApprovalRequests(id, textBox4.Text, textBox3.Text, textBox2.Text, textBox5.Text, textBox6.Text);
+                InsertIntoSocietyApprovalRequests(id, textBox4.Text, textBox3.Text, textBox2.Text, textBox5.Text, textBox6.Text);
                 Console.WriteLine("Request Sent");
             } else
             {
@@ -71,6 +69,40 @@ namespace Societify
             Form1 sdashboard = new Form1();
             sdashboard.Show();
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+      
+
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+
+        }
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 }

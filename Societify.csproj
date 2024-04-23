@@ -57,6 +57,12 @@
       <DependentUpon>admindashboard.cs</DependentUpon>
     </Compile>
     <Compile Include="connectionstr.cs" />
+    <Compile Include="descriptiondash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="descriptiondash.Designer.cs">
+      <DependentUpon>descriptiondash.cs</DependentUpon>
+    </Compile>
     <Compile Include="eventsRequestList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +81,12 @@
     <Compile Include="AddEvent.Designer.cs">
       <DependentUpon>AddEvent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mentordashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mentordashboard.Designer.cs">
+      <DependentUpon>Mentordashboard.cs</DependentUpon>
+    </Compile>
     <Compile Include="MemberApprovalPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +100,30 @@
     <Compile Include="memberRequestsList.Designer.cs">
       <DependentUpon>memberRequestsList.cs</DependentUpon>
     </Compile>
+    <Compile Include="MentorEventsRequestList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MentorEventsRequestList.Designer.cs">
+      <DependentUpon>MentorEventsRequestList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MentorEventsRequestPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MentorEventsRequestPanel.Designer.cs">
+      <DependentUpon>MentorEventsRequestPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MentorSocietyRequestList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MentorSocietyRequestList.Designer.cs">
+      <DependentUpon>MentorSocietyRequestList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MentorSocietyRequestPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MentorSocietyRequestPanel.Designer.cs">
+      <DependentUpon>MentorSocietyRequestPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Society.cs" />
     <Compile Include="SocietyDetails.cs">
       <SubType>Form</SubType>
@@ -95,11 +131,11 @@
     <Compile Include="SocietyDetails.Designer.cs">
       <DependentUpon>SocietyDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="requestsList.cs">
+    <Compile Include="AdminrequestsList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="requestsList.Designer.cs">
-      <DependentUpon>requestsList.cs</DependentUpon>
+    <Compile Include="AdminrequestsList.Designer.cs">
+      <DependentUpon>AdminrequestsList.cs</DependentUpon>
     </Compile>
     <Compile Include="register.cs">
       <SubType>Form</SubType>
@@ -148,11 +184,20 @@
     <Compile Include="ViewSocietiesAdmin.Designer.cs">
       <DependentUpon>ViewSocietiesAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewSocietiesMentor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewSocietiesMentor.Designer.cs">
+      <DependentUpon>ViewSocietiesMentor.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AddEvent.resx">
       <DependentUpon>AddEvent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="admindashboard.resx">
       <DependentUpon>admindashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="descriptiondash.resx">
+      <DependentUpon>descriptiondash.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="eventRequestPanel.resx">
       <DependentUpon>eventRequestPanel.cs</DependentUpon>
@@ -162,6 +207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="memberRequestsList.resx">
       <DependentUpon>memberRequestsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mentordashboard.resx">
+      <DependentUpon>Mentordashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SocietyDetails.resx">
       <DependentUpon>SocietyDetails.cs</DependentUpon>
@@ -191,8 +239,8 @@
     <EmbeddedResource Include="requests panel.resx">
       <DependentUpon>requests panel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="requestsList.resx">
-      <DependentUpon>requestsList.cs</DependentUpon>
+    <EmbeddedResource Include="AdminrequestsList.resx">
+      <DependentUpon>AdminrequestsList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="studentdashboard.resx">
       <DependentUpon>studentdashboard.cs</DependentUpon>

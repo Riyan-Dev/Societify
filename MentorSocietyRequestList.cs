@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Societify;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,9 +12,10 @@ using static Societify.DBHandler;
 
 namespace Societify
 {
-    public partial class requestsList : Form
+    public partial class MentorSocietyRequestList : Form
     {
-        public requestsList()
+
+        public MentorSocietyRequestList()
         {
             InitializeComponent();
         }
@@ -24,20 +26,20 @@ namespace Societify
         }
         private void PopulateDataGridView()
         {
-            DataTable dtSocieties = GetSocietiesInApprovalRequests();
+            DataTable dtSocieties = GetSocietiesVerificationRequests();
 
             if (dtSocieties.Rows.Count > 0)
             {
                 dataGridView1.DataSource = dtSocieties;
             }
-            
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            admindashboard adashboard = new admindashboard();
-            adashboard.Show();
+            Mentordashboard mdashboard = new Mentordashboard();
+            mdashboard.Show();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -50,7 +52,7 @@ namespace Societify
 
                 // Create a new instance of the form you want to open
                 this.Hide();
-                Form2 newForm = new Form2(societyID);
+                MentorSocietyRequestPanel newForm = new MentorSocietyRequestPanel(societyID);
 
                 // Show the new form
                 newForm.Show();
@@ -58,3 +60,4 @@ namespace Societify
         }
     }
 }
+

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,11 +12,11 @@ using static Societify.DBHandler;
 
 namespace Societify
 {
-    public partial class eventRequestPanel : Form
+    public partial class MentorEventsRequestPanel : Form
     {
         int SocietyID = 0;
         int eventID = 0;
-        public eventRequestPanel(int ID,int evID)
+        public MentorEventsRequestPanel(int ID, int evID)
         {
             InitializeComponent();
             this.SocietyID = ID;
@@ -25,13 +26,13 @@ namespace Societify
         private void button2_Click(object sender, EventArgs e)
         {
             this.Hide();
-            AdminrequestsList newWindow = new AdminrequestsList();
+            MentorEventsRequestList newWindow = new MentorEventsRequestList();
             newWindow.Show();
         }
 
         private void Form3_Load(object sender, EventArgs e)
         {
-            DataTable dtReqDetails = GetSocietyEventsApprovalDetails(SocietyID,eventID);
+            DataTable dtReqDetails = GetSocietyEventsApprovalDetails(SocietyID, eventID);
             DataRow row = dtReqDetails.Rows[0];
             label7.Text = row["reqID"].ToString();
             label14.Text = row["societyID"].ToString();
@@ -43,19 +44,17 @@ namespace Societify
 
         private void registerbutton_Click(object sender, EventArgs e)
         {
-            UpdateSocietyEventApproval(SocietyID, eventID,true);
-            DeleteSocietyEventApproval(SocietyID,eventID);
+            UpdateSocietyEventsVerification(SocietyID, eventID);
             this.Hide();
-            eventsRequestList newWindow = new eventsRequestList();
+            MentorEventsRequestList newWindow = new MentorEventsRequestList();
             newWindow.Show();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            UpdateSocietyEventApproval(SocietyID,eventID,false);
-            DeleteSocietyEventApproval(SocietyID, eventID);
+            DeleteSocietyEventVerification(SocietyID, eventID);
             this.Hide();
-            eventsRequestList newWindow = new eventsRequestList();
+            MentorEventsRequestList newWindow = new MentorEventsRequestList();
             newWindow.Show();
 
 
