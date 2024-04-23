@@ -14,7 +14,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     string query = @"
                 INSERT INTO Mentor (UserID, Department)
@@ -39,7 +39,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     string query = @"
                 INSERT INTO student (UserID, Department, Batch)
@@ -66,7 +66,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     string query = @"
                 INSERT INTO Users (UserID, Name, Password, Email, DOB)
@@ -97,7 +97,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     // SQL query to retrieve user data based on UserID or Email
                     string query = @"
@@ -136,7 +136,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
                     string query = @"SELECT COUNT(*) AS memberCount 
@@ -166,7 +166,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
                     string query = @"DELETE FROM MemberApprovalRequests 
@@ -194,7 +194,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -224,7 +224,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -265,7 +265,7 @@ namespace Societify
             reqID = @ReqID;
     ";
 
-            using (SqlConnection connection = new SqlConnection(connectionStr.str))
+            using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -307,7 +307,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -476,7 +476,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
                     string query = "UPDATE SocietyApprovalRequests SET Verified = @VerifiedValue WHERE societyID = @SocietyID";
@@ -610,7 +610,7 @@ namespace Societify
             string id = Constants.user.UserID;
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
 
                 connection.Open();
@@ -641,7 +641,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -697,7 +697,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
                     string query = @"
@@ -725,7 +725,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
                     string query = @"UPDATE sea SET sea.Verified = 1 FROM societyEventsApproval sea
@@ -798,7 +798,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -895,7 +895,7 @@ namespace Societify
             string mentorID = Constants.user.UserID;   
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
