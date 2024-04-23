@@ -345,7 +345,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -384,7 +384,7 @@ namespace Societify
         }
         public static void InsertSocietyEvent(int societyID, string eventName, string date, string registrationFee, string description)
         {
-            using (SqlConnection connection = new SqlConnection(connectionStr.str))
+            using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
             {
                 connection.Open();
                 SqlTransaction transaction = connection.BeginTransaction();
@@ -439,7 +439,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -478,7 +478,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -502,7 +502,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -526,7 +526,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -561,7 +561,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -590,7 +590,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -617,7 +617,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -642,7 +642,7 @@ namespace Societify
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -668,7 +668,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -702,7 +702,7 @@ namespace Societify
             DataTable dt = new DataTable();
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -744,7 +744,7 @@ namespace Societify
             WHERE s.President_ID = @UserID
         )";
 
-            using (SqlConnection connection = new SqlConnection(connectionStr.str))
+            using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -794,7 +794,7 @@ namespace Societify
     INNER JOIN societyRoles sr ON mar.rollID = sr.rollID
     WHERE mar.UserID = @UserID;";
 
-            using (SqlConnection connection = new SqlConnection(connectionStr.str))
+            using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -849,7 +849,7 @@ namespace Societify
                            "JOIN societyRoles sr ON sm.rollID = sr.rollID " +
                            "WHERE sm.UserID = @UserID";
 
-            using (SqlConnection connection = new SqlConnection(connectionStr.str))
+            using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -900,7 +900,7 @@ namespace Societify
             string query = @"INSERT INTO MemberApprovalRequests (SocietyID, UserID, rollID, TeamID, purpose, motivation, AboutYou, PastExp)
                          VALUES (@SocietyID, @UserID, @RollID, @TeamID, @Purpose, @Motivation, @AboutYou, @PastExp)";
 
-            using (SqlConnection connection = new SqlConnection(connectionStr.str))
+            using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -924,7 +924,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     // SQL query to retrieve remaining slots
                     string query = @"
@@ -965,7 +965,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -1003,7 +1003,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
@@ -1029,7 +1029,7 @@ namespace Societify
             string query = @"INSERT INTO SocietyApprovalRequests (societyID, purpose, motivation, AboutYou, PastExp, PlannedEvent)
                          VALUES (@SocietyID, @Purpose, @Motivation, @AboutYou, @PastExp, @PlannedEvent)";
 
-            using (SqlConnection connection = new SqlConnection(connectionStr.str))
+            using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -1055,7 +1055,7 @@ namespace Societify
         VALUES (@SocietyName, @MentorID, @CreationDate, @PresidentID, @Approved, @Description);
         SELECT SCOPE_IDENTITY();"; // Query to insert and retrieve the autogenerated SocietyID
 
-            using (SqlConnection connection = new SqlConnection(connectionStr.str))
+            using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -1081,7 +1081,7 @@ namespace Societify
             string query = @"INSERT INTO Users (UserID, Password, Email, DOB)
                          VALUES (@UserID, @Password, @Email, @DOB)";
 
-            using (SqlConnection connection = new SqlConnection(connectionStr.str))
+            using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -1101,7 +1101,7 @@ namespace Societify
             string query = @"INSERT INTO student (UserID, Department, Batch)
                          VALUES (@UserID, @Department, @Batch)";
 
-            using (SqlConnection connection = new SqlConnection(connectionStr.str))
+            using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -1127,7 +1127,7 @@ namespace Societify
                      LEFT JOIN Admin A ON U.UserID = A.UserID
                      WHERE U.UserID = @UserID AND U.Password = @Password";
 
-            using (SqlConnection connection = new SqlConnection(connectionStr.str))
+            using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -1212,7 +1212,7 @@ namespace Societify
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionStr.str))
+                using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
                 {
                     connection.Open();
 
