@@ -1447,24 +1447,6 @@ namespace Societify
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
    

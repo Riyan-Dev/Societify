@@ -17,8 +17,10 @@ namespace Societify
         public Form1()
         {
             InitializeComponent();
-            LoadJoinedSocieties();
-            LoadSocietyEvents(Constants.user.UserID);
+            // Retrieve the UserID from Constants.user
+            string userID = Constants.user.UserID;
+            LoadJoinedSocieties(userID);
+            LoadSocietyEvents(userID);
 
         }
 
@@ -30,7 +32,6 @@ namespace Societify
 
             dataGridView2.ReadOnly = true;
             dataGridView2.DefaultCellStyle.BackColor = Color.FromArgb(190, 210, 240);
-            
 
             AdjustDataGridView(dataGridView2);
         }
@@ -87,12 +88,12 @@ namespace Societify
         }
 
 
-        private void LoadJoinedSocieties()
+        private void LoadJoinedSocieties(String userID)
         {
             // Assuming you have a method to retrieve joined societies for the current student
-            DataTable dtJoinedSocieties = GetJoinedSocietiesForStudent(user.UserID); // Implement this method according to your database structure and logic
-            dtJoinedSocieties.Merge(GetApprovalPendingRequests(user.UserID));
-            dtJoinedSocieties.Merge(GetYourSocietiesForStudent(user.UserID));
+            DataTable dtJoinedSocieties = GetJoinedSocietiesForStudent(userID); // Implement this method according to your database structure and logic
+            dtJoinedSocieties.Merge(GetApprovalPendingRequests(userID));
+            dtJoinedSocieties.Merge(GetYourSocietiesForStudent(userID));
 
             if (dtJoinedSocieties != null && dtJoinedSocieties.Rows.Count > 0)
             {
@@ -111,11 +112,6 @@ namespace Societify
 
                 AdjustDataGridViewHeight(dataGridView1);
             }
-           
-
-
-
-
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

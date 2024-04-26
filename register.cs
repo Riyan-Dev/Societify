@@ -182,6 +182,7 @@ namespace Societify
         private void loginFun()
         {
             User user = DBHandler.Login(textBox1.Text, textBox2.Text);
+            Constants.user = user;
 
             if (user is Student)
             {
@@ -192,7 +193,9 @@ namespace Societify
             }
             else if (user is Mentor)
             {
-
+                this.Hide();
+                Mentordashboard sdashboard = new Mentordashboard();
+                sdashboard.Show();
             }
             else if (user is Admin)
             {

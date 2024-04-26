@@ -47,9 +47,10 @@ namespace Societify
         {
 
 
-
-            user = DBHandler.Login(textBox1.Text, textBox2.Text);
-
+            
+            var user = DBHandler.Login(textBox1.Text, textBox2.Text);
+            // Store the user in Constants after successful login
+            Constants.user = user;
             if (user is Student)
             {
                 // Assuming your User object has a property called UserId which stores the user ID
