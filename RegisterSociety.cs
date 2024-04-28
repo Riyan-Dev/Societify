@@ -15,6 +15,8 @@ namespace Societify
 {
     public partial class RegisterSociety : Form
     {
+        string selectedMentor = "";
+
         public RegisterSociety()
         {
             InitializeComponent();
@@ -27,7 +29,26 @@ namespace Societify
 
         private void Form2_Load(object sender, EventArgs e)
         {
+            DataTable dtMentors = GetMentors();
 
+            if (dtMentors != null && dtMentors.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtMentors.Rows)
+                {
+                    string mentorID = row["MentorID"].ToString();
+                    string mentorName = row["MentorName"].ToString();
+                    Console.WriteLine($"Mentor ID: {mentorID}, Mentor Name: {mentorName}");
+                    comboBox1.Items.Add(new KeyValuePair<string, string>(mentorID, mentorName));
+                }
+
+                // Set the dropdown's display member and value member properties
+                comboBox1.DisplayMember = "Value";
+                comboBox1.ValueMember = "Key";
+            }
+            else
+            {
+                Console.WriteLine("No teams found.");
+            }
         }
 
         bool AreTextboxesNotEmpty()
@@ -37,6 +58,11 @@ namespace Societify
 
         private void registerbutton_Click(object sender, EventArgs e)
         {   
+            if (selectedMentor == "")
+            {
+                MessageBox.Show("Information Incomplete, Select Mentor from dropdown", "Error");
+                return;
+            }
             if (!AreTextboxesNotEmpty())
             {
                 MessageBox.Show("Information Incomplete, all field are required", "Error");
@@ -45,7 +71,7 @@ namespace Societify
             Console.WriteLine(checkBox1.Checked);
             if (checkBox1.Checked)
             {
-                int id = InsertIntoSociety(textBox1.Text, null, DateTime.Now, user.UserID, false, textBox4.Text);
+                int id = InsertIntoSociety(textBox1.Text, selectedMentor, DateTime.Now, user.UserID, false, textBox4.Text);
                 InsertIntoSocietyApprovalRequests(id, textBox4.Text, textBox3.Text, textBox2.Text, textBox5.Text, textBox6.Text);
                 Console.WriteLine("Request Sent");
             } else
@@ -70,10 +96,6 @@ namespace Societify
             sdashboard.Show();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
         // Event handler for the Terms and Conditions button
         private void termsButton_Click(object sender, EventArgs e)
         {
@@ -102,6 +124,17 @@ namespace Societify
         private void label1_Click_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            KeyValuePair<string, string> selectedPair = (KeyValuePair<string, string>)comboBox1.SelectedItem;
+            selectedMentor = selectedPair.Key;
         }
     }
 

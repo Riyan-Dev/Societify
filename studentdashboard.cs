@@ -14,6 +14,7 @@ namespace Societify
 {
     public partial class Form1 : Form
     {
+        DataTable dtJoinedSocieties;
         public Form1()
         {
             InitializeComponent();
@@ -26,8 +27,28 @@ namespace Societify
 
         private void LoadSocietyEvents(string userID)
         {
+            DataTable dtSocietyEvents = new DataTable();
             // Retrieve events for the specified society ID
-            DataTable dtSocietyEvents = GetSocietyEventsForStudent(userID); // Implement this method according to your database structure and logic
+            for (int i = 0; i < dtJoinedSocieties.Rows.Count; i++)
+            {
+                DataRow row = dtJoinedSocieties.Rows[i];
+                // Access row data here
+                // For example, you can access specific columns like this:
+                int societyID = Convert.ToInt32(row["SocietyID"]);
+                string approved = row["Status"].ToString();
+
+                if (approved != "Approved")
+                {
+                    continue;
+                }
+                else
+                {
+                    dtSocietyEvents.Merge(GetApprovedSocietyEvents(societyID));
+                }
+
+
+            }
+
             dataGridView2.DataSource = dtSocietyEvents;
 
             dataGridView2.ReadOnly = true;
@@ -91,7 +112,7 @@ namespace Societify
         private void LoadJoinedSocieties(String userID)
         {
             // Assuming you have a method to retrieve joined societies for the current student
-            DataTable dtJoinedSocieties = GetJoinedSocietiesForStudent(userID); // Implement this method according to your database structure and logic
+            dtJoinedSocieties = GetJoinedSocietiesForStudent(userID); // Implement this method according to your database structure and logic
             dtJoinedSocieties.Merge(GetApprovalPendingRequests(userID));
             dtJoinedSocieties.Merge(GetYourSocietiesForStudent(userID));
 

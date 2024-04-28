@@ -35,7 +35,7 @@ namespace Societify
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            admindashboard adashboard = new admindashboard();
+            Mentordashboard adashboard = new Mentordashboard();
             adashboard.Show();
         }
 

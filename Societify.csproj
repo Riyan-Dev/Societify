@@ -248,6 +248,9 @@
     <EmbeddedResource Include="ViewSocietiesAdmin.resx">
       <DependentUpon>ViewSocietiesAdmin.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ViewSocietiesMentor.resx">
+      <DependentUpon>ViewSocietiesMentor.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

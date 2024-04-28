@@ -42,5 +42,10 @@ namespace Societify
                 MessageBox.Show("No societies found.");
             }
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

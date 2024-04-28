@@ -162,6 +162,7 @@ namespace Societify
             } else
             {
                 MessageBox.Show("Kindly Select User Type", "Incomplete Info");
+                return;
             }
         }
 

@@ -10,6 +10,32 @@ namespace Societify
 {
     class DBHandler
     {
+        public static DataTable GetMentors()
+        {
+            DataTable mentorsTable = new DataTable();
+            string connectionString = connectionStr.connectionString; // Replace this with your actual connection string
+
+            string query = @"
+            SELECT M.UserID AS MentorID, U.Name AS MentorName
+            FROM Mentor M
+            INNER JOIN Users U ON M.UserID = U.UserID;
+        ";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    {
+                        adapter.Fill(mentorsTable);
+                    }
+                }
+            }
+
+            return mentorsTable;
+        }
         public static void InsertMentor(string userID, string department)
         {
             try
@@ -198,8 +224,8 @@ namespace Societify
                 {
                     connection.Open();
 
-                    string query = @"INSERT INTO societyMembers (SocietyID, UserID, rollID, TeamID, approved)
-                             VALUES (@SocietyID, @UserID, @RollID, @TeamID, @Approved)";
+                    string query = @"INSERT INTO societyMembers (SocietyID, UserID, rollID, TeamID)
+                             VALUES (@SocietyID, @UserID, @RollID, @TeamID)";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -350,7 +376,7 @@ namespace Societify
                     SELECT
                         se.eventName,
                         se.Date,
-                        se.registerationFee,
+                        se.registrationFee,
                         CASE
                             WHEN se.approved = 1 THEN 'Approved'
                             WHEN se.approved = 0 AND sar.reqID IS NULL THEN 'Rejected'
@@ -390,7 +416,7 @@ namespace Societify
                 {
                     // Insert into societyEvents table
                     string insertEventQuery = @"
-                INSERT INTO societyEvents (societyID, eventName, Date, registerationFee, Description, approved)
+                INSERT INTO societyEvents (societyID, eventName, Date, registrationFee, Description, approved)
                 VALUES (@SocietyID, @EventName, @Date, @RegistrationFee, @Description, 0);
             ";
 
@@ -406,7 +432,7 @@ namespace Societify
 
                     // Insert into societyEventsApproval table
                     string insertEventApprovalQuery = @"
-                INSERT INTO societyEventsApproval (societyID, eventName, Date, registerationFee, Description)
+                INSERT INTO societyEventsApproval (societyID, eventName, Date, registrationFee, Description)
                 VALUES (@SocietyID, @EventName, @Date, @RegistrationFee, @Description);
             ";
 
@@ -899,7 +925,12 @@ namespace Societify
                 {
                     connection.Open();
 
-                    string query = "SELECT SocietyID, SocietyName, President_ID,approved FROM Society WHERE MentorID = @MentorID";
+                    string query = @"SELECT S.SocietyID, S.SocietyName, S.President_ID, S.approved
+FROM Society S
+LEFT JOIN SocietyApprovalRequests SAR ON S.SocietyID = SAR.societyID
+WHERE S.MentorID = @MentorID
+AND (SAR.Verified = 1 OR SAR.Verified IS NULL); 
+                    ";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -932,11 +963,8 @@ namespace Societify
                'President' AS rollName
         FROM Society s
         LEFT JOIN SocietyApprovalRequests sar ON s.SocietyID = sar.SocietyID
-        WHERE EXISTS (
-            SELECT 1 
-            FROM societyMembers sm
-            WHERE s.President_ID = @UserID
-        )";
+        WHERE s.President_ID = @UserID
+        ";
 
             using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
             {
@@ -1220,8 +1248,8 @@ namespace Societify
 
         public static void InsertIntoSocietyApprovalRequests( int societyID, string purpose, string motivation, string aboutYou, string pastExp, string plannedEvents)
         {
-            string query = @"INSERT INTO SocietyApprovalRequests (societyID, purpose, motivation, AboutYou, PastExp, PlannedEvent)
-                         VALUES (@SocietyID, @Purpose, @Motivation, @AboutYou, @PastExp, @PlannedEvent)";
+            string query = @"INSERT INTO SocietyApprovalRequests (societyID, purpose, motivation, AboutYou, PastExp, PlannedEvent, Verified)
+                    VALUES (@SocietyID, @Purpose, @Motivation, @AboutYou, @PastExp, @PlannedEvent, 0);";
 
             using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
             {
@@ -1397,6 +1425,34 @@ namespace Societify
     }
 
 
+        public static DataTable GetApprovedSocietyEvents(int societyID)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionStr.connectionString))
+            {
+                string sqlQuery = "SELECT eventID, eventName, Date, registrationFee, Description " +
+                                  "FROM societyEvents " +
+                                  "WHERE approved = 1 AND societyID = @societyID";
+
+                SqlCommand command = new SqlCommand(sqlQuery, connection);
+                command.Parameters.AddWithValue("@societyID", societyID);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    dt.Load(reader);
+                }
+                catch (Exception ex)
+                {
+                    // Handle exception
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+            }
+
+            return dt;
+        }
 
 
 
